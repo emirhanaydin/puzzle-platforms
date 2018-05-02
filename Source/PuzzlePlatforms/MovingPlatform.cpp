@@ -16,6 +16,16 @@ void AMovingPlatform::Tick(float DeltaSeconds)
 	if (!HasAuthority()) return;
 
 	FVector Location = GetActorLocation();
-	Location += FVector(DeltaSeconds * Speed, 0, 0);
+	Location.X += DeltaSeconds * Speed;
 	SetActorLocation(Location);
+}
+
+void AMovingPlatform::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (!HasAuthority()) return;
+
+	SetReplicates(true);
+	SetReplicateMovement(true);
 }
