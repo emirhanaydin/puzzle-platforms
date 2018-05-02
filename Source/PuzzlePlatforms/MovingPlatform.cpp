@@ -16,15 +16,29 @@ void AMovingPlatform::Tick(float DeltaSeconds)
 	if (!HasAuthority()) return;
 
 	FVector Location = GetActorLocation();
-	Location.X += DeltaSeconds * Speed;
+
+	if (FVector::Distance(Location, StartPoint) > TargetDistance) {
+		FVector tmp = StartPoint;
+		StartPoint = EndPoint;
+		EndPoint = tmp;
+
+		Direction *= -1;
+	}
+
+	Location += Direction * Speed * DeltaSeconds;
 	SetActorLocation(Location);
 }
 
 void AMovingPlatform::BeginPlay()
 {
+	if (!HasAuthority()) return;
+
 	Super::BeginPlay();
 
-	if (!HasAuthority()) return;
+	StartPoint = GetActorLocation();
+	EndPoint = GetTransform().TransformPosition(TargetLocation);
+	Direction = (EndPoint - StartPoint).GetSafeNormal();
+	TargetDistance = FVector::Distance(StartPoint, EndPoint);
 
 	SetReplicates(true);
 	SetReplicateMovement(true);
