@@ -19,9 +19,15 @@ public:
 
 	virtual void Init() override;
 
+	UFUNCTION(BlueprintCallable, Category = "User Interface")
+		void LoadMenu();
+
 	UFUNCTION(Exec)
 		void Host();
 
 	UFUNCTION(Exec)
 		void Join(const FString IPAddress);
+
+private:
+	TSubclassOf<class UUserWidget> MenuClass;
 };
