@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 
 #include "PlatformTrigger.h"
+#include "Menu/MainMenu.h"
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer &ObjectInitializer)
 {
@@ -29,7 +30,7 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 {
 	if (!ensure(MenuClass != nullptr)) return;
 
-	UUserWidget *Menu = CreateWidget<UUserWidget>(this, MenuClass);
+	UMainMenu *Menu = CreateWidget<UMainMenu>(this, MenuClass);
 	if (!ensure(Menu != nullptr)) return;
 
 	Menu->AddToViewport();
@@ -43,18 +44,24 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 
 	PlayerController->SetInputMode(InputMode);
 	PlayerController->bShowMouseCursor = true;
+
+	Menu->SetMenuInterface(this);
 }
 
 void UPuzzlePlatformsGameInstance::Host()
 {
-	if (!ensure(GEngine != nullptr)) return;
-
-	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Cyan, TEXT("Host"), true, FVector2D(3, 3));
-
 	UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
 
 	World->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
+
+	APlayerController *PlayerController = GetFirstLocalPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+	FInputModeGameOnly InputMode;
+
+	PlayerController->SetInputMode(InputMode);
+	PlayerController->bShowMouseCursor = false;
 }
 
 void UPuzzlePlatformsGameInstance::Join(const FString IPAddress)

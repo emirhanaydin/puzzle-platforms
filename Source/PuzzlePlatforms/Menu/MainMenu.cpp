@@ -16,9 +16,14 @@ bool UMainMenu::Initialize() {
 }
 
 void UMainMenu::OnClickedButtonHost() {
-	UE_LOG(LogTemp, Display, TEXT("OnClicked: ButtonHost"));
+	if (MenuInterface != nullptr)
+		MenuInterface->Host();
 }
 
 void UMainMenu::OnClickedButtonJoin() {
-	UE_LOG(LogTemp, Display, TEXT("OnClicked: ButtonJoin"))
+	UE_LOG(LogTemp, Display, TEXT("OnClicked: ButtonJoin"));
+}
+
+void UMainMenu::SetMenuInterface(IMenuInterface *MenuInterface) {
+	this->MenuInterface = MenuInterface;
 }
