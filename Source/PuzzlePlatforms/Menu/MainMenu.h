@@ -20,6 +20,7 @@ public:
 
 protected:
 	virtual bool Initialize() override;
+	virtual void OnLevelRemovedFromWorld(ULevel *Inlevel, UWorld *InWorld) override;
 
 private:
 	UPROPERTY(meta = (BindWidget))

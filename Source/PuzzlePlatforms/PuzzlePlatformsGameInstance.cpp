@@ -33,18 +33,6 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 	UMainMenu *Menu = CreateWidget<UMainMenu>(this, MenuClass);
 	if (!ensure(Menu != nullptr)) return;
 
-	Menu->AddToViewport();
-
-	APlayerController *PlayerController = GetFirstLocalPlayerController();
-	if (!ensure(PlayerController != nullptr)) return;
-
-	FInputModeUIOnly InputMode;
-	InputMode.SetWidgetToFocus(Menu->TakeWidget());
-	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-
-	PlayerController->SetInputMode(InputMode);
-	PlayerController->bShowMouseCursor = true;
-
 	Menu->SetMenuInterface(this);
 }
 
@@ -54,14 +42,6 @@ void UPuzzlePlatformsGameInstance::Host()
 	if (!ensure(World != nullptr)) return;
 
 	World->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
-
-	APlayerController *PlayerController = GetFirstLocalPlayerController();
-	if (!ensure(PlayerController != nullptr)) return;
-
-	FInputModeGameOnly InputMode;
-
-	PlayerController->SetInputMode(InputMode);
-	PlayerController->bShowMouseCursor = false;
 }
 
 void UPuzzlePlatformsGameInstance::Join(const FString IPAddress)
