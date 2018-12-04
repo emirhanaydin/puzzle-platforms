@@ -24,16 +24,31 @@ protected:
 
 private:
 	UPROPERTY(meta = (BindWidget))
-		class UButton *ButtonHost;
+		class UButton *ButtonMainHost;
 
 	UPROPERTY(meta = (BindWidget))
-		class UButton *ButtonJoin;
+		class UButton *ButtonMainJoin;
+
+	UPROPERTY(meta = (BindWidget))
+		class UWidgetSwitcher *MenuSwitcher;
+
+	UPROPERTY(meta = (BindWidget))
+		class UWidget *WidgetMainMenu;
+
+	UPROPERTY(meta = (BindWidget))
+		class UWidget *WidgetJoinMenu;
+
+	UPROPERTY(meta = (BindWidget))
+		class UButton *ButtonJoinBack;
 
 	UFUNCTION()
-		void OnClickedButtonHost();
+		void OnClickedButtonMainHost();
 
 	UFUNCTION()
-		void OnClickedButtonJoin();
+		void OnClickedButtonMainJoin();
+
+	UFUNCTION()
+		void OnClickedButtonJoinBack();
 
 	IMenuInterface *MenuInterface;
 };
